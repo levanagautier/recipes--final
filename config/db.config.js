@@ -11,7 +11,6 @@ const sequelize = new Sequelize(DB_NAME, DB_HOST, DB_PASSWORD, {
     }
 });
 
-
 const Recipe = sequelize.define('recipe', {
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
@@ -27,8 +26,19 @@ const Recipe = sequelize.define('recipe', {
     published: DataTypes.TINYINT(1),
 })
 
-const RecipeAssociation = sequelize.define('recipes-recipe', {
-    mainRecipe_id: {
+const SubRecipe = sequelize.define('subrecipe', {
+    id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    title: DataTypes.STRING,
+    instructions: DataTypes.JSON,
+})
+
+
+const RecipeAssociation = sequelize.define('recipes-subrecipe', {
+    recipe_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
@@ -37,17 +47,16 @@ const RecipeAssociation = sequelize.define('recipes-recipe', {
             deferrable: Deferrable.NOT,
         },
     },
-    secondaryRecipe_id: {
+    subrecipe_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-            model: Recipe,
+            model: SubRecipe,
             key: 'id',
             deferrable: Deferrable.NOT,
         },
     },
-    note: DataTypes.STRING,
-    step: DataTypes.TINYINT(2),
+    order: DataTypes.TINYINT(2),
 },
 {
     timestamps: true,
@@ -63,7 +72,7 @@ const Tag = sequelize.define('tag', {
     color: DataTypes.CHAR(6),
 })
 
-const TagAssociation = sequelize.define('recipes-tag', {
+const TagAssociation = sequelize.define('subrecipes-tag', {
     tag_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
@@ -74,18 +83,15 @@ const TagAssociation = sequelize.define('recipes-tag', {
         },
 
     },
-    recipe_id: {
+    subrecipe_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-            model: Recipe,
+            model: SubRecipe,
             key: 'id',
             deferrable: Deferrable.NOT,
         },
     },
-},
-{
-    timestamps: true,
 })
 
 const Utensil = sequelize.define('utensil', {
@@ -97,7 +103,7 @@ const Utensil = sequelize.define('utensil', {
     name: DataTypes.STRING(150),
 })
 
-const UtensilAssociation = sequelize.define('recipes-utensil', {
+const UtensilAssociation = sequelize.define('subrecipes-utensil', {
     utensil_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
@@ -107,18 +113,15 @@ const UtensilAssociation = sequelize.define('recipes-utensil', {
             deferrable: Deferrable.NOT,
         },
     },
-    recipe_id: {
+    subrecipe_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-            model: Recipe,
+            model: SubRecipe,
             key: 'id',
             deferrable: Deferrable.NOT,
         },
     },
-},
-{
-    timestamps: true,
 })
 
 const Ingredient = sequelize.define('ingredient', {
@@ -130,30 +133,16 @@ const Ingredient = sequelize.define('ingredient', {
     name: DataTypes.STRING(150),
 })
 
-const IngredientList = sequelize.define('recipes-ingredient', {
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    recipe_id: {
+const IngredientList = sequelize.define('subrecipes-ingredient', {
+    subrecipe_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         references: {
-            model: Recipe,
+            model: SubRecipe,
             key: 'id',
             deferrable: Deferrable.NOT,
         },
     },
-    // secondaryRecipe_id: {
-    //     type: DataTypes.INTEGER.UNSIGNED,
-    //     primaryKey: true,
-    //     references: {
-    //         model: Recipe,
-    //         key: 'id',
-    //         deferrable: Deferrable.NOT,
-    //     },
-    // },
     ingredient_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
@@ -169,9 +158,6 @@ const IngredientList = sequelize.define('recipes-ingredient', {
         type: DataTypes.STRING,
         allowNull: true,
     },
-},
-{
-    timestamps: true,
 })
 
 try {

@@ -1,0 +1,28 @@
+.button,
+a.button,
+button,
+[type="submit"],
+[type="reset"],
+[type="button"] {
+  -webkit-appearance: none;
+  display: inline-block;
+  border: 1px solid #cdcdcd;
+  border-radius: 4px;
+  background: transparent;
+  color: #4e4e4e;
+  font: 600 1rem "Poppins", sans-serif;
+  text-transform: none;
+  padding: 10px 15px;
+  margin: 0 0 0.5rem 0;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  height: 40px;
+  &:hover {
+    color: #4e4e4e;
+    border: 1px solid #818181;
+    background: transparent;
+  }
+}

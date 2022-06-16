@@ -1,0 +1,30 @@
+@import "../reset.scss";
+@import "../colors.scss";
+@import "../responsive.scss";
+@import "../fonts.scss";
+@import "../_atoms/index.scss";
+
+.auth {
+  grid-area: 2 / 1 / 3 / 4;
+  width: 40%;
+  display: grid;
+  justify-self: center;
+  align-self: center;
+  &__form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 15px;
+  }
+  &__title {
+    @include font-preset--page-title;
+    margin: 0 0 30px;
+    padding: 0;
+  }
+  &__label {
+    @include font-preset--label;
+    margin: 0;
+    padding: 0 20px 10px;
+  }
+}

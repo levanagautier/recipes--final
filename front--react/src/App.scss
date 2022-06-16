@@ -1,0 +1,14 @@
+@import "./scss/reset.scss";
+@import "./scss/colors.scss";
+@import "./scss/responsive.scss";
+@import "./scss/fonts.scss";
+@import "./scss/_atoms/index.scss";
+
+* {
+  @include font-preset--default;
+}
+
+a {
+  text-decoration: none;
+  font: inherit;
+}

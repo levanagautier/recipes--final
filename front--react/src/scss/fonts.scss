@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@100;300;500&display=swap");
+
+* {
+  font: 400 1rem "Poppins", sans-serif;
+  color: $dark-grey;
+}
+
+@mixin font-preset--default {
+  font: 400 1rem "Poppins", sans-serif;
+  color: $dark-grey;
+  @include mobile {
+  }
+  @include tablet {
+  }
+  @include desktop {
+  }
+}
+
+@mixin font-preset--page-title {
+  font: 600 2rem "Poppins", sans-serif;
+  @include mobile {
+  }
+  @include tablet {
+  }
+  @include desktop {
+  }
+}
+
+@mixin font-preset--label {
+  font: 300 1rem "Roboto Slab", sans-serif;
+  @include mobile {
+  }
+  @include tablet {
+  }
+  @include desktop {
+  }
+}
+
+@mixin font-preset--tag {
+  font: 600 1.1rem "Poppins", sans-serif;
+  text-transform: lowercase;
+  @include mobile {
+  }
+  @include tablet {
+  }
+  @include desktop {
+  }
+}

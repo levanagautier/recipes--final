@@ -1,0 +1,180 @@
+/* ------------------------------------------------------------
+ *      uniformisation
+------------------------------------------------------------ */
+/* 
+ *      line-height correction on all browsers
+ */
+html {
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 
+ *      margin removal on all browsers
+ */
+body {
+  margin: 0;
+}
+
+/* 
+ *      consistent <main> rendering in IE
+ */
+main {
+  display: block;
+}
+
+/* 
+ *      font-size and margin on <h1> within <section>
+ *      & <article> contexts in Chrome, Firefox and Safari
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/* 
+ *      removal of gray background on active links in IE
+ */
+a {
+  background-color: transparent;
+}
+
+/* 
+ *      font-weight correction in Chrome, Edge and Safari
+ *      font-size correction in all browsers
+ */
+b,
+strong {
+  font-weight: bolder;
+}
+
+small {
+  font-size: 80%;
+}
+
+/* 
+ *      line-height correction on <sub> & <sup> elements 
+ *      to prevent them to affect line-height
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* 
+ *      border on images within links in IE
+ */
+img {
+  border-style: none;
+}
+
+/*
+ *      font-styles uniformisation in all browsers
+ *      margin removal in Firefox & Safari
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+/*
+ *      padding correction in Firefox
+ */
+fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+/*
+ *      box sizing correction in IE 10
+ *      padding removal in IE 10
+ */
+[type=checkbox],
+[type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/*
+ *      appearance adjustment in Chrome & Safari
+ *      outline style correction in Safari
+ *      inner-padding removal in Chrome, Safari on macOS
+ */
+[type=search] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/*
+ *      forcing correct display in Edge, IE 10 & Firefox
+ *      correct display in all browsers
+ */
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+}
+
+/*
+ *      correct display in IE 10
+ */
+[hidden] {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+ *      css reset
+--------------------------------------------------------------- */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+figure {
+  margin: 0;
+}
+
+p,
+ol,
+ul,
+dl,
+table {
+  margin: 0 0 1.5rem 0;
+}
+
+ul li ul {
+  margin-bottom: 0;
+}
+
+ol li ol {
+  margin-bottom: 0;
+}
+
+/*# sourceMappingURL=reset.css.map */

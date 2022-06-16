@@ -1,36 +1,25 @@
 {
   "name": "recipes",
   "version": "1.0.0",
-  "description": "3WA -- FSD12. final project",
-  "main": "app.js",
-  "type": "module",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss:build": "sass scss:public/css",
-    "scss:watch": "sass --watch scss:public/css",
-    "start": "nodemon app.js"
+    "init-install": "concurrently \"cd ./front--react && npm i\"  \"cd ./back--nodejs && npm i\"",
+    "start": "concurrently \"cd ./back--nodejs && npm start\" \"cd ./front--react && npm start\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/levanagautier/recipes.git"
   },
+  "keywords": [],
   "author": "lvn",
   "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "express-mysql-session": "^2.1.8",
-    "express-session": "^1.17.3",
-    "mysql2": "^2.3.3",
-    "sass": "^1.52.1",
-    "sequelize": "^6.20.1",
-    "sequelize-cli": "^6.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.16"
-  },
   "bugs": {
     "url": "https://github.com/levanagautier/recipes/issues"
   },
-  "homepage": "https://github.com/levanagautier/recipes#readme"
+  "homepage": "https://github.com/levanagautier/recipes#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
 }

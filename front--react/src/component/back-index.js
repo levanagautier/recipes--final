@@ -12,6 +12,7 @@ export { IngredientItem } from './back-office/ingredientItem';
 export { UtensilItem } from './back-office/utensilItem';
 export { TagItem } from './back-office/tagItem';
 export { RecipeForm } from './back-office/RecipeForm';
+export { IngredientForm } from './back-office/IngredientForm';
 //      UI
 export { Navigation } from './back-office/ui/navigation';
 export { Header } from './back-office/ui/header';

@@ -7,6 +7,7 @@ export function Navigation() {
       <ul>
         <li>
           <NavLink
+            title="Se rendre sur le tableau de bord"
             className={({ isActive }) => (isActive ? 'active' : undefined)}
             to="../admin/"
           >
@@ -15,6 +16,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
+            title="Se rendre sur la liste des recettes"
             className={({ isActive }) => (isActive ? 'active' : '')}
             to="recipes"
           >
@@ -23,6 +25,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
+            title="Se rendre sur la liste des ingrédients"
             className={({ isActive }) => (isActive ? 'active' : '')}
             to="ingredients"
           >
@@ -31,6 +34,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
+            title="Se rendre sur la liste des ustensiles"
             className={({ isActive }) => (isActive ? 'active' : '')}
             to="utensils"
           >
@@ -39,6 +43,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
+            title="Se rendre sur la liste des tags"
             className={({ isActive }) => (isActive ? 'active' : '')}
             to="tags"
           >
@@ -47,6 +52,7 @@ export function Navigation() {
         </li>
         <li>
           <NavLink
+            title="Se rendre sur la liste des utilisateurs"
             className={({ isActive }) => (isActive ? 'active' : '')}
             to="users"
           >

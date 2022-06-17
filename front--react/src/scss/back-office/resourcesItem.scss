@@ -1,0 +1,15 @@
+@import "../colors.scss";
+@import "../responsive.scss";
+@import "../fonts.scss";
+
+.dashboard {
+    padding: 20px;
+    &__title {
+        @include font-preset--page-title;
+        margin: 0;
+        padding: 0;
+    }
+    &__img {
+        width: 80%;
+    }
+}

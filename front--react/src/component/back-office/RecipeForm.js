@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { IngredientInput } from './ingredientInput';
 import { UtensilInput } from './utensilInput';
+import { useSelector } from 'react-redux';
 
 export function RecipeForm() {
+  const token =
+    useSelector((state) => state.token) || localStorage.getItem('token');
   const [steps, setSteps] = useState([]);
   const [utensils, setUtensils] = useState(['']);
   const [ingredients, setIngredients] = useState([]);
@@ -38,26 +41,21 @@ export function RecipeForm() {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // let { ...updatedRecipe } = recipe;
-    // updatedRecipe.ingredients = ingredients;
-    // updatedRecipe.utensils = utensils;
-
-    // updatedRecipe.instructions = steps;
-
-    // delete updatedRecipe.utensilsCount;
-    // delete updatedRecipe.ingredientsCount;
-    // console.log(updatedRecipe);
-    // fetch(`http://localhost:8080/recipes/${id}/`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'x-access-token': token,
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    //   body: JSON.stringify({
-    //     updatedRecipe,
-    //   }),
-    // }).then(console.log);
+    recipe.instructions = steps;
+    console.log(steps);
+    fetch(`http://localhost:8080/recipes`, {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        recipe,
+      }),
+    })
+      .then((response) => response.json())
+      .then(console.log);
   };
 
   useEffect(() => {
@@ -73,19 +71,21 @@ export function RecipeForm() {
 
   const handleIngredientChange = (
     { target: { name, value } },
-    ingredientId
+    ingredientId,
+    ingredientOrder
   ) => {
-    setIngredients((prevState) =>
-      prevState.map((ingredient) => {
-        if (ingredient.id === ingredientId) {
+    setRecipe((prevState) => ({
+      ...prevState,
+      ingredients: prevState.ingredients.map((ingredient) => {
+        if (+ingredient.order === +ingredientOrder) {
           return {
             ...ingredient,
             [name]: value,
           };
         }
         return ingredient;
-      })
-    );
+      }),
+    }));
   };
 
   const addIngredient = (subrecipeId) => {
@@ -93,32 +93,43 @@ export function RecipeForm() {
       ...prevState,
       ingredients: [
         ...prevState.ingredients,
-        { order: prevState.ingredients.length + 1 },
+        {
+          order: prevState.ingredients.length + 1,
+          name: '',
+          qty: '',
+          unit: '',
+          prepNotes: '',
+        },
       ],
     }));
   };
 
-  const handleUtensilChange = ({ target: { name, value } }, utensilId) => {
-    setUtensils((prevState) =>
-      prevState.map((utensil) => {
-        if (utensil.id === utensilId) {
-          return {
-            ...utensil,
-            [name]: value,
-          };
-        }
-        return utensil;
-      })
-    );
-  };
-
   const addUtensil = (subrecipeId) => {
-    console.log('wesh');
     setRecipe((prevState) => ({
       ...prevState,
       utensils: [
         ...prevState.utensils,
-        { order: prevState.utensils.length + 1 },
+        { order: prevState.utensils.length + 1, name: '' },
+      ],
+    }));
+  };
+  const handleUtensilChange = (
+    { target: { name, value } },
+    utensilId,
+    utensilOrder
+  ) => {
+    setRecipe((prevState) => ({
+      ...prevState,
+      utensils: [
+        ...prevState.utensils.map((utensil) => {
+          if (+utensil.order === +utensilOrder) {
+            return {
+              ...utensil,
+              name: value,
+            };
+          }
+          return utensil;
+        }),
       ],
     }));
   };
@@ -133,7 +144,7 @@ export function RecipeForm() {
   const deleteIngredient = (e, ingredientId, order) => {
     let { ingredients } = recipe;
     ingredients = ingredients.filter(
-      (ingredient) => ingredient.order !== order
+      (ingredient) => +ingredient.order !== +order
     );
     setRecipe((prevState) => ({
       ...prevState,
@@ -141,16 +152,19 @@ export function RecipeForm() {
     }));
   };
 
-  const deleteUtensil = (e, utensilId) => {
-    setUtensils((prevState) =>
-      prevState.filter((utensil) => utensil.id !== utensilId)
-    );
+  const deleteUtensil = (e, utensilId, order) => {
+    let { utensils } = recipe;
+    utensils = utensils.filter((utensil) => +utensil.order !== +order);
+    setRecipe((prevState) => ({
+      ...prevState,
+      utensils,
+    }));
   };
 
   const handleStepChange = (e, stepIndex) => {
-    console.log(stepIndex);
     setSteps((prevState) => {
       return prevState.map((step) => {
+        console.log(stepIndex, step.order);
         if (+step.order === +stepIndex) {
           return {
             ...step,
@@ -182,7 +196,6 @@ export function RecipeForm() {
         </h1>
 
         {recipe.subRecipes.map((subrecipe) => (
-          // Ajouter un element HTML pour pouvoir mettre une key
           <div key={subrecipe.id}>
             <article className="edit__field">
               <details className="ingredients__list">
@@ -230,7 +243,8 @@ export function RecipeForm() {
                         <UtensilInput
                           {...utensil}
                           handleUtensilChange={handleUtensilChange}
-                          deleteIngredient={deleteUtensil}
+                          deleteUtensil={deleteUtensil}
+                          order={utensil.order}
                           key={utensil.id}
                         />
                       );

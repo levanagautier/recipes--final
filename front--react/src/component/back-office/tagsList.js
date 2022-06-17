@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CreationButton } from '../back-index';
+import '../../scss/back-office/list.scss';
 
 export function TagsList() {
   const [tags, setTags] = useState([]);

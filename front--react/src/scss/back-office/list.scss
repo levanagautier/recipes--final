@@ -1,0 +1,67 @@
+@import "../colors.scss";
+@import "../responsive.scss";
+@import "../fonts.scss";
+
+.main-content,
+  section {
+    height: calc(100vh - 65px);
+    overflow: hidden;
+    grid-area: 2 / 2 / 4 / 4;
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      max-width: 100%;
+      th,
+      td {
+        text-align: left;
+        padding: 0.5rem;
+      }
+      thead {
+        th {
+          border-bottom: 2px solid #dedede;
+          font: 500 1rem "Poppins", sans-serif;
+          text-transform: lowercase;
+          position: sticky;
+          top: 0;
+          z-index: 2;
+          background-color: white;
+        }
+      }
+      tbody {
+        td {
+          border-bottom: 1px solid #dedede;
+          font: 300 1rem "Roboto Slab", serif;
+        }
+      }
+      #thead__edit,
+      #thead__delete {
+        width: 55px;
+      }
+      .table {
+        &__icon {
+          width: 22px;
+          height: 22px;
+          display: inline-block;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .resources {
+    &__list {
+      padding: 0 15px 15px;
+      h1 {
+        font: 300 1.8rem "Roboto Slab", serif;
+        text-transform: lowercase;
+        margin: 0 0 30px 0;
+      }
+    }
+    &__table {
+      height: calc(100vh - 140px);
+      overflow: hidden auto;
+    }
+  }

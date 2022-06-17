@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CreationButton } from '../back-index';
+import { useSelector } from 'react-redux';
+import '../../scss/back-office/list.scss';
 
 export function IngredientsList() {
   const [ingredients, setIngredients] = useState([]);
+  const token =
+    useSelector((state) => state.token) || localStorage.getItem('token');
 
   useEffect(() => {
     fetch('http://localhost:8080/ingredients')
@@ -14,6 +18,20 @@ export function IngredientsList() {
   useEffect(() => {
     console.log(ingredients);
   }, [ingredients]);
+
+  const deleteIngredient = (ingredientId) => {
+    setIngredients((prevState) =>
+      prevState.filter((ingredient) => ingredient.id !== ingredientId)
+    );
+    fetch(`http://localhost:8080/ingredients/${ingredientId}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    })
+      .then((response) => response.json())
+      .then(console.log);
+  };
 
   return (
     <section className="resources__list">
@@ -49,16 +67,16 @@ export function IngredientsList() {
                   </Link>
                 </td>
                 <td className="tbody__delete">
-                  <Link
+                  <div
                     className="table__icon"
                     title={"Supprimer l'ingrédient " + ingredient.name}
-                    to={`./${ingredient.id}`}
+                    onClick={() => deleteIngredient(ingredient.id)}
                   >
                     <img
                       alt={"Supprimer l'ingrédient " + ingredient.name}
                       src={process.env.PUBLIC_URL + '/icons/icon__delete.svg'}
                     />
-                  </Link>
+                  </div>
                 </td>
               </tr>
             ))}

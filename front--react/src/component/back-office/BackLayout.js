@@ -17,6 +17,7 @@ import {
   TagItem,
   ProtectedRoute,
   RecipeForm,
+  IngredientForm,
   NotFound,
 } from '../../component/back-index';
 
@@ -138,6 +139,15 @@ export function BackLayout() {
           element={
             <ProtectedRoute>
               <RecipeForm />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          exact
+          path="create/ingredients"
+          element={
+            <ProtectedRoute>
+              <IngredientForm />
             </ProtectedRoute>
           }
         />

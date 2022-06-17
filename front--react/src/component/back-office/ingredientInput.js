@@ -29,6 +29,7 @@ export function IngredientInput({
             value={qty || ''}
             name="qty"
             onChange={(e) => handleIngredientChange(e, id, order)}
+            required={true}
           />
           <select
             className="ingredient__unit"
@@ -58,11 +59,11 @@ export function IngredientInput({
             type="text"
             name="prepNotes"
             value={prepNotes}
-            onChange={(e) => handleIngredientChange(e, id)}
+            onChange={(e) => handleIngredientChange(e, id, order)}
           />
           <button
             className="ingredient__delete"
-            onClick={(e) => deleteIngredient(e, id)}
+            onClick={(e) => deleteIngredient(e, id, order)}
           >
             &times;
           </button>

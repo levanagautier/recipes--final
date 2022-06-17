@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { IngredientInput } from './ingredientInput';
 import { UtensilInput } from './utensilInput';
-
 import { useSelector } from 'react-redux';
+import '../../scss/back-office/recipe-edit.scss';
 
 export function RecipeItem() {
   const { id } = useParams();
@@ -13,6 +13,7 @@ export function RecipeItem() {
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsCount, setIngredientsCount] = useState(0);
   const [utensilsCount, setUtensilsCount] = useState(0);
+  const [apiMessage, setApiMessage] = useState(false);
   const token =
     useSelector((state) => state.token) || localStorage.getItem('token');
 
@@ -45,14 +46,14 @@ export function RecipeItem() {
   }, [recipe]);
 
   useEffect(() => {
-    // setRecipe((prevState) => ({
-    //   ...prevState,
-    //   subRecipes: [steps],
-    // }));
     console.log(steps);
   }, [steps]);
 
   useEffect(() => {}, [ingredientsCount]);
+
+  useEffect(() => {
+    setTimeout(() => setApiMessage(false), 3000);
+  }, [apiMessage]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +76,11 @@ export function RecipeItem() {
       body: JSON.stringify({
         updatedRecipe,
       }),
-    }).then(console.log);
+    })
+      .then((response) => response.json())
+      .then((apiResponse) => {
+        setApiMessage(apiResponse);
+      });
   };
 
   const handleTitleChange = (e) => {
@@ -192,7 +197,6 @@ export function RecipeItem() {
           </h1>
 
           {recipe.subRecipes.map((subrecipe) => (
-            // Ajouter un element HTML pour pouvoir mettre une key
             <div key={subrecipe.id}>
               <article className="edit__field">
                 <details className="ingredients__list">
@@ -229,7 +233,6 @@ export function RecipeItem() {
           ))}
 
           {recipe.subRecipes.map((subrecipe) => (
-            // Ajouter un element HTML pour pouvoir mettre une key
             <div key={subrecipe.id}>
               <article className="edit__field">
                 <details className="utensils__list">
@@ -244,7 +247,7 @@ export function RecipeItem() {
                             <UtensilInput
                               {...utensil}
                               handleUtensilChange={handleUtensilChange}
-                              deleteIngredient={deleteUtensil}
+                              deleteUtensil={deleteUtensil}
                               key={utensil.id}
                             />
                           );
@@ -299,6 +302,7 @@ export function RecipeItem() {
 
         <section className="edit__submit">
           <input type="submit" value="valider" />
+          <p className="edit__message">{apiMessage.message}</p>
         </section>
       </form>
     );

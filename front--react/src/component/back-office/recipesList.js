@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { CreationButton } from '../back-index';
+import '../../scss/back-office/list.scss';
 
 export function RecipesList() {
+  const token =
+    useSelector((state) => state.token) || localStorage.getItem('token');
   const [recipes, setRecipes] = useState([]);
+  const [apiMessage, setApiMessage] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:8080/recipes')
@@ -14,6 +19,20 @@ export function RecipesList() {
   useEffect(() => {
     console.log(recipes);
   }, [recipes]);
+
+  const deleteRecipe = (recipeId) => {
+    setRecipes((prevState) =>
+      prevState.filter((recipe) => recipe.id !== recipeId)
+    );
+    fetch(`http://localhost:8080/recipes/${recipeId}`, {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    })
+      .then((response) => response.json())
+      .then(console.log);
+  };
 
   return (
     <section className="resources__list">
@@ -53,16 +72,16 @@ export function RecipesList() {
                   </Link>
                 </td>
                 <td className="tbody__delete">
-                  <Link
+                  <div
                     className="table__icon"
                     title={'Supprimer la recette ' + recipe.title}
-                    to={`./${recipe.id}`}
+                    onClick={() => deleteRecipe(recipe.id)}
                   >
                     <img
                       alt={'Supprimer la recette ' + recipe.title}
                       src={process.env.PUBLIC_URL + '/icons/icon__delete.svg'}
                     />
-                  </Link>
+                  </div>
                 </td>
               </tr>
             ))}

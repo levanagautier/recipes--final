@@ -29,7 +29,7 @@ const getIngredient = async (req, res) => {
 
 const insertIngredient = async (req, res) => {
   try {
-    const newIngredient = await models.Ingredients.insert(req.body);
+    const newIngredient = await models.Ingredients.create(req.body);
     res.json(newIngredient);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -58,7 +58,7 @@ const updateIngredient = async (req, res) => {
 const deleteIngredient = async (req, res) => {
   try {
     await models.Ingredients.destroy({ where: { id: req.params.id } });
-    res.status(200).json({ message: 'Ingredient has been deleted.' });
+    res.status(200).json({ message: 'Ingredient supprimé.' });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

@@ -12,3 +12,9 @@ a {
   text-decoration: none;
   font: inherit;
 }
+
+img {
+    // image-rendering: crisp-edges;
+    image-rendering: optimizeQuality;
+    image-rendering: -webkit-optimize-contrast;
+}

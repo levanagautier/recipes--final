@@ -1,0 +1,199 @@
+@import "../colors.scss";
+@import "../responsive.scss";
+@import "../fonts.scss";
+
+.edit {
+    grid-area: 2 / 2 / 4 / 4;
+    overflow: hidden auto;
+    height: calc(100vh - 65px);
+    overflow: hidden;
+    display: flex;
+    flex-flow: row nowrap;
+    &__field-group {
+      flex-basis: 80%;
+      border-right: 1px solid $dark-grey;
+      overflow-y: auto;
+    }
+    &__field {
+      border-bottom: 1px solid $dark-grey;
+      display: flex;
+      justify-content: space-between;
+      align-content: flex-start;
+      .ingredients__list,
+      .utensils__list {
+        flex-basis: 80%;
+        border-right: 1px solid $dark-grey;
+        &[open] {
+            .edit__label {
+                border-bottom: 1px solid $dark-grey;
+                &::before {
+                    content: '\00FF0D';
+                    display: inline-block;
+                    padding-right: 5px;
+                }
+            }
+        }
+        .edit {
+            &__label {
+                cursor: pointer;
+                height: 50px;
+                display: flex;
+                align-items: center;
+                &::before {
+                    content: '\00FF0B';
+                    display: inline-block;
+                    padding-right: 5px;
+                }
+            }
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            li {
+                height: 50px;
+                padding: 0 0 0 40px;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                gap: 5px;
+                border-bottom: 1px solid $dark-grey;
+                &:last-child {
+                    border-bottom: none;
+                }
+                input {
+                    width: 150px;
+                    height: 25px;
+                    margin: 0;
+                    padding: 0 5px;
+                }
+                select {
+                    width: 50px;
+                    height: 25px;
+                    margin: 0;
+                    padding: 0 5px;
+                }
+                .ingredient,
+                .utensil {
+                    &__qty {
+                        width: 80px;
+                    }
+                    &__name {
+                        width: 100px
+                    }
+                    &__delete {
+                        width: 20px;
+                        height: 20px;
+                        color: $dark-grey;
+                        border-radius: 0;
+                        background-color: white;
+                        padding: 0;
+                        margin: 0 0 0 15px;
+                        width: 20px;
+                        &:hover {
+                            color: tomato;
+                        }
+                    }
+                }
+            }
+        }
+      }
+    }
+    &__submit {
+      flex-basis: 20%;
+      padding: 20px;
+      display: flex;
+      align-items: flex-start;
+      flex-flow: column wrap;
+      justify-content: flex-start;
+      input {
+        width: 100%
+      }
+    }
+    &__message {
+        @include font-preset--api-message;
+        padding: 0 20px;
+        width: 100%;
+        text-align: center;
+    }
+    &__title {
+      width: 100%;
+      padding: 20px;
+      margin: 0;
+      border-bottom: 1px solid $dark-grey;
+      input {
+        font: 500 1.2rem "Poppins", sans-serif;
+        padding: 0 20px;
+        width: 100%;
+      }
+    }
+    &__label {
+      margin: 0;
+      padding: 0 20px;
+      @include font-preset--label;
+    }
+    &__add-button {
+        flex-basis: 20%;
+        margin: 0;
+        background-color: $dark-grey;
+        color: white;
+        height: 50px;
+        border: none;
+        border-bottom: 1px solid white;
+        border-radius: 0;
+        &:hover {
+            border: none;
+            border-bottom: 1px solid $dark-grey;
+        }
+    }
+    .instructions {
+        &__header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid $dark-grey;
+            .edit__label {
+                @include font-preset--tag;
+            }
+            .edit__add-button {
+                &:hover {
+                    border-bottom: none;
+                }
+            }
+        }
+        &__list {
+            overflow-y: auto;
+            .edit__label {
+                height: 50px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+        }
+        &__container {
+            min-height: 50px;
+            border-bottom: 1px solid $dark-grey;
+            padding: 0 0 0 20px;
+            &[open] {
+                .edit__label {
+                    &::before {
+                        content: '\00FF0D';
+                        display: inline-block;
+                        padding-right: 5px;
+                    }
+                }
+            }
+            .edit__label {
+                &::before {
+                    content: '\00FF0B';
+                    display: inline-block;
+                    padding-right: 5px;
+                }
+            }
+        }
+        &__textarea {
+            margin: 0 20px 20px 20px;
+            width: calc(100% - 40px);
+        }
+    }
+  }

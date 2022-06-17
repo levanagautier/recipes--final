@@ -20,6 +20,12 @@
       font: 600 3rem "Poppins", sans-serif;
       text-transform: lowercase;
       line-height: 65px;
+      @include mobile {
+        font: 600 2.5rem "Poppins", sans-serif;
+      }
+      @include tablet {
+        font: 600 2.8rem "Poppins", sans-serif;
+      }
     }
   }
   nav {

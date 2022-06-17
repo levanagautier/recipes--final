@@ -9,8 +9,10 @@
   font: 400 1rem "Poppins", sans-serif;
   color: $dark-grey;
   @include mobile {
+    font: 400 .8rem "Poppins", sans-serif;
   }
   @include tablet {
+    font: 400 .9rem "Poppins", sans-serif;
   }
   @include desktop {
   }
@@ -19,8 +21,10 @@
 @mixin font-preset--page-title {
   font: 600 2rem "Poppins", sans-serif;
   @include mobile {
+    font: 600 1.5rem "Poppins", sans-serif;
   }
   @include tablet {
+    font: 600 1.8rem "Poppins", sans-serif;
   }
   @include desktop {
   }
@@ -29,19 +33,36 @@
 @mixin font-preset--label {
   font: 300 1rem "Roboto Slab", sans-serif;
   @include mobile {
+    font: 300 .8rem "Roboto Slab", sans-serif;
   }
   @include tablet {
+    font: 300 .9rem "Roboto Slab", sans-serif;
   }
   @include desktop {
   }
 }
 
+@mixin font-preset--api-message {
+    font: 500 1rem "Roboto Slab", sans-serif;
+    color: $green;
+    @include mobile {
+      font: 500 .8rem "Roboto Slab", sans-serif;
+    }
+    @include tablet {
+      font: 500 .9rem "Roboto Slab", sans-serif;
+    }
+    @include desktop {
+    }
+  }
+
 @mixin font-preset--tag {
   font: 600 1.1rem "Poppins", sans-serif;
   text-transform: lowercase;
   @include mobile {
+    font: 600 0.9rem "Poppins", sans-serif;
   }
   @include tablet {
+    font: 600 1rem "Poppins", sans-serif;
   }
   @include desktop {
   }

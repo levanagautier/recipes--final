@@ -15,7 +15,7 @@ const getAllRecipes = async (req, res) => {
               model: models.Ingredients,
               as: 'Ingredient',
               through: {
-                attributes: ['subrecipeId'],
+                attributes: ['subrecipeId', 'qty', 'unit', 'prepNotes'],
               },
             },
             {
@@ -36,6 +36,86 @@ const getAllRecipes = async (req, res) => {
 };
 
 const getRecipe = async (req, res) => {
+  /*
+
+  ---------------- BEFORE -----------------------------------
+   {
+        "id": 1,
+        "title": "Earl Grey Pound Cake",
+        "date": "2022-06-14T13:15:32.000Z",
+        "picture": "earl-grey-pound-cake.jpg",
+        "published": 1,
+        "createdAt": "2022-06-14T13:15:32.000Z",
+        "updatedAt": "2022-06-17T08:53:55.000Z",
+        "SubRecipes": [
+            {
+                "id": 2,
+                "title": "White Pesto",
+                "instructions": {
+                    "1": "ca va le faire tkt",
+                    "2": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                    "3": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                    "4": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+                },
+                "createdAt": "2022-06-14T13:15:32.000Z",
+                "updatedAt": "2022-06-16T20:58:26.000Z",
+                "Ingredient": [
+                    {
+                        "id": 3,
+                        "name": "ricotta",
+                        "createdAt": "2022-06-14T13:15:32.000Z",
+                        "updatedAt": "2022-06-14T13:15:32.000Z",
+                        "subrecipes-ingredients": {
+                            "subrecipeId": 2,
+                            "qty": 250,
+                            "unit": "g",
+                            "prepNotes": "room temp"
+                        }
+                    }
+                ],
+                "Utensil": []
+            }
+        ]
+    }
+
+
+
+    --------------- AFTER ------------------------
+    {
+    "id": "1",
+    "title": "Earl Grey Pound Cake",
+    "date": "2022-06-14T13:15:32.000Z",
+    "picture": "earl-grey-pound-cake.jpg",
+    "published": 1,
+    "subRecipes": [
+        {
+            "id": 2,
+            "title": "White Pesto",
+            "instructions": {
+                "1": "ca va le faire tkt",
+                "2": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "3": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+                "4": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+            }
+        }
+    ],
+    "ingredients": [
+        {
+            "id": 3,
+            "name": "ricotta",
+            "qty": 250,
+            "unit": "g",
+            "prepNotes": "room temp",
+            "subrecipeId": 2
+        }
+    ],
+    "utensils": [],
+    "utensilsCount": 9,
+    "ingredientsCount": 4
+}
+
+
+  */
   const { id } = req.params;
   try {
     const Recipe = await models.Recipes.findOne({
@@ -138,8 +218,32 @@ const getRecipe = async (req, res) => {
 };
 
 const insertRecipe = async (req, res) => {
+  let recipe = req.body.recipe;
+  let { ingredients, utensils } = recipe;
+  let instructions = {};
+  recipe.instructions.forEach((instruction) => {
+    instructions[instruction.order] = instruction.instructions;
+  });
+
+  recipe.date = new Date();
   try {
-    const newRecipe = await models.Recipes.insert(req.body);
+    const newRecipe = await models.Recipes.create(recipe);
+
+    let subrecipe = {
+      title: recipe.title,
+      instructions,
+      recipeId: newRecipe.id,
+    };
+
+    const newSubRecipe = await models.SubRecipes.create(subrecipe);
+
+    ingredients.forEach(async (ingredient) => {
+      let oldIngredient = await models.Ingredients.findOne({
+        where: {
+          name: ingredient.name,
+        },
+      });
+    });
     res.json(newRecipe);
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -173,7 +277,7 @@ const updateRecipe = async (req, res) => {
         where: { id: ingredient.id },
       });
 
-      if (ingredient !== null) {
+      if (oldIngredient !== null) {
         await oldIngredient.update(ingredient);
         await oldIngredient.save();
       } else {
@@ -186,7 +290,7 @@ const updateRecipe = async (req, res) => {
         where: { id: utensil.id },
       });
 
-      if (utensil !== null) {
+      if (oldUtensil !== null) {
         await oldUtensil.update(utensil);
         await oldUtensil.save();
       } else {
@@ -199,9 +303,9 @@ const updateRecipe = async (req, res) => {
         where: { id: subRecipe.id },
       });
 
-      req.body.updatedRecipe.instructions.forEach((instruction) => {
-        if (+instruction.subRecipeId === +subRecipe.id) {
-          subRecipe.instructions[instruction.order] = instruction.instructions;
+      req.body.updatedRecipe.instructions.forEach((element) => {
+        if (+element.subRecipeId === +subRecipe.id) {
+          subRecipe.instructions[element.order] = element.instructions;
         }
       });
 
@@ -212,7 +316,7 @@ const updateRecipe = async (req, res) => {
         let newSubRecipe = await models.SubRecipes.insert(subRecipe);
       }
     });
-    res.status(200).json({ message: 'Resource has been updated' });
+    res.status(200).json({ message: 'Modification enregistrée.' });
   } catch (error) {
     res.status(400).json({ error });
   }
@@ -221,7 +325,7 @@ const updateRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   try {
     await models.Recipes.destroy({ where: { id: req.params.id } });
-    res.status(200).json({ message: 'Recipe has been deleted.' });
+    res.status(200).json({ message: 'Recette supprimée.' });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

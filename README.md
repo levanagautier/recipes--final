@@ -1,7 +1,6 @@
 # recipes--final
-**3WA — projet de fin d'année*  
+*3WA — projet de fin d'année*  
   
-  
-Pour accéder au back-office:   
+- Accès au back-office   
 >email : example@example.com   
 >mot de passe : password
